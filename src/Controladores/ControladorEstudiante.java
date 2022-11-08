@@ -8,6 +8,7 @@ package Controladores;
 import Modelos.Estudiante;
 import Servicios.Servicio;
 import java.util.LinkedList;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -35,14 +36,10 @@ public class ControladorEstudiante {
         try {
             JSONParser parser = new JSONParser();
             JSONObject estudianteJSON = (JSONObject) parser.parse(respuesta);
-            String nombre=(String)estudianteJSON.get("name");
-            double nota_final=(Double)estudianteJSON.get("final_note");
-            long edad=(Long)estudianteJSON.get("age");
-            boolean becado=(Boolean)estudianteJSON.get("scholarship");
-            elEstudiante=new Estudiante(id, nombre, nota_final, becado, edad);
-            
+            elEstudiante = new Estudiante();
+            elEstudiante.toObject(estudianteJSON);
         } catch (Exception e) {
-            
+            System.out.println("error " + e);
         }
 
         return elEstudiante;
@@ -50,6 +47,19 @@ public class ControladorEstudiante {
 
     public LinkedList<Estudiante> listar() {
         LinkedList<Estudiante> losEstudiantes = new LinkedList<>();
+        String respuesta = servicioEstudiante.GET("students");
+        System.out.println(""+respuesta);
+        try {
+            JSONParser parser = new JSONParser();
+            JSONArray estudiantesJSON = (JSONArray) parser.parse(respuesta);
+            for (Object estudianteJSON : estudiantesJSON) {
+                Estudiante elEstudiante = new Estudiante();
+                elEstudiante.toObject((JSONObject)estudianteJSON);
+                losEstudiantes.add(elEstudiante);
+            }
+        } catch (Exception e) {
+            System.out.println("error " + e);
+        }
         return losEstudiantes;
     }
 

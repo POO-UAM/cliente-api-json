@@ -5,6 +5,8 @@
  */
 package Modelos;
 
+import org.json.simple.JSONObject;
+
 /**
  *
  * @author pipet
@@ -22,6 +24,18 @@ public class Estudiante {
         this.notaFinal = notaFinal;
         this.becado = becado;
         this.edad = edad;
+    }
+
+    public Estudiante() {
+    }
+    
+    
+    public void toObject(JSONObject estudianteJSON){
+        this.id=estudianteJSON.get("id").toString();
+        this.nombre=(String)estudianteJSON.get("name");
+        this.notaFinal=(Double)estudianteJSON.get("final_note");
+        this.edad=(Long)estudianteJSON.get("age");
+        this.becado=(Boolean)estudianteJSON.get("scholarship");
     }
 
     

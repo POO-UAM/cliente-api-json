@@ -24,6 +24,7 @@ public class Servicio {
         try {
             // TODO code application logic here
             URL urlForGetRequest = new URL(this.server+"/"+endPoint);
+            System.out.println(""+urlForGetRequest.toString());
             String readLine = null;
             HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
             conection.setRequestMethod("GET");
